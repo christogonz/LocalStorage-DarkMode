@@ -8,13 +8,30 @@
 import SwiftUI
 
 struct ContentView: View {
+    //MARK: LocalStorage with @AppStorage
+    @AppStorage("isDarkMode") var isDarkMode: Bool = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        VStack(spacing: 16) {
+            Spacer()
+            
+            Image(systemName: isDarkMode ? "moon.fill" :"sun.max.fill")
+                .foregroundStyle(isDarkMode ? .yellow : .orange)
+                .font(.largeTitle)
+            
+            Text("Theme is: \( isDarkMode ? "Dark" : "Light")")
+                
+            Spacer()
+            
+            CustomButton(text: "Change Theme")
+                .onTapGesture {
+                    withAnimation(.easeIn) {
+                        isDarkMode.toggle()
+                    }
+                    
+                }
         }
+        .preferredColorScheme( isDarkMode ? .dark: .light)
         .padding()
     }
 }
